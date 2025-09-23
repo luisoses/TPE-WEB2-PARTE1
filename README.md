@@ -1,8 +1,8 @@
 # TPE-WEB2-PARTE1
-Alumnos: 
+Alumnos:
+---------------------------------
 Luis Oses 
 Email:luisosespro123@gmail.com
-------------------------------
 Maximo Calamante
 Email:maximocalamante14@gmail.com
 
