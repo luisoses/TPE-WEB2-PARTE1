@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Autos</title>
+    <link rel="stylesheet" href="/TPEWEB2/css/disenioweb.css"> 
+    <link rel="stylesheet" href="/TPEWEB2/css/listar.css">
+</head>
+<body> 
+    <header>
+        <div class="navbar">
+            <h1>Listado de Autos</h1>
+
+            <div class="navbar-right">
+                <?php if (isset($_SESSION['EMAIL_USER'])): ?>
+                    <span class="user-email">Usuario: <?= htmlspecialchars($_SESSION['EMAIL_USER']) ?></span>
+                    <a href="logOut" class="btn-logout">Cerrar sesión</a>
+                <?php else: ?>
+                    <a href="showLogin" class="btn-login">Logearse</a>
+                    <a href="registerUser" class="btn-register">Registrarse</a>
+                <?php endif; ?>
+            </div>
+
+            <div class="hamburger-menu" id="hamburger-menu">
+                <span></span><span></span><span></span>
+            </div>
+            <nav class="menu" id="menu">
+                <ul>
+                    <li><a href="listar">Home</a></li>
+                    <?php if (!isset($_SESSION['EMAIL_USER'])): ?>
+                        <li><a href="showLogin">Logearse</a></li>
+                        <li><a href="registerUser">Registrarse</a></li>
+                    <?php else: ?>
+                        <li><a href="logOut">Cerrar sesión</a></li>
+                    <?php endif; ?>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+
+
+        <section class="cars-list">
+            <?php if (is_array($cars) && !empty($cars)): ?>
+                <ul>
+                <?php foreach ($cars as $car): ?>
+                    <li class="car-item">
+                        <h2><?= htmlspecialchars($car->Marca) ?> - <?= htmlspecialchars($car->Modelo) ?></h2>
+                        <a href="deleteCar/<?= htmlspecialchars($car->ID_Modelo) ?>" class="btn btn-danger btn-sm">Borrar</a>
+                        <span> - </span>
+                        <a href="editCar/<?= htmlspecialchars($car->ID_Modelo) ?>" class="btn btn-primary btn-sm">Modificar</a>
+                        <span> - </span>
+                        <a href="carDetails/<?= htmlspecialchars($car->ID_Modelo) ?>" class="btn btn-info">Más detalles</a>
+                    </li>
+                <?php endforeach; ?>
+                </ul>
+            <?php else: ?>
+                <p>No hay autos cargados.</p>
+            <?php endif; ?>
+        </section>
+
+
+        <div class="panel">
+            <button class="panel-toggle"> Filtrar Autos</button>
+                <div class="panel-content">
+                    <form action="filterCars" method="POST" class="filter-form">
+                        <label for="filter_marca">Marca:</label>
+                        <select name="ID_Marca" id="filter_marca">
+                            <option value="">Todas</option>
+                            <?php foreach ($brands as $brand): ?>
+                                <option value="<?= $brand->ID_Marca ?>"><?= $brand->Marca ?></option>
+                            <?php endforeach; ?>
+                        </select>
+
+                        <label for="Tipo">Tipo de Vehículo:</label>
+                        <input type="text" name="Tipo" placeholder="Tipo de Vehículo">
+
+                        <label for="Combustible">Combustible:</label>
+                        <input type="text" name="Combustible" placeholder="Combustible">
+
+                        <label for="Transmision">Transmisión:</label>
+                        <input type="text" name="Transmision" placeholder="Transmisión">
+
+                        <button type="submit" class="btn btn-primary">Filtrar</button>
+                    </form>
+                    
+                    <a href="listar" class="btn btn-secondary">Reiniciar</a>
+                </div>
+        </div>
+
+       
+        <div class="panel">
+            <button class="panel-toggle"> Agregar Marca / Auto</button>
+            <div class="panel-content">
+                <form action="addBrand" method="POST" class="form-container">
+                    <h2>Nueva Marca</h2>
+                    <label for="nueva_marca">Marca:</label>
+                    <input type="text" name="nueva_marca" id="nueva_marca" required placeholder="Ingresar marca">
+                    <button type="submit" class="btn">Agregar Marca</button>
+                </form>
+
+    
+                <form action="addCar" method="POST" class="form-container">
+                    <h2>Nuevo Auto</h2>
+                    <label for="add_marca">Marca:</label>
+                    <select name="ID_Marca" id="add_marca" required>
+                        <option value="">Selecciona una marca</option>
+                        <?php foreach ($brands as $brand): ?>
+                            <option value="<?= $brand->ID_Marca ?>"><?= $brand->Marca ?></option>
+                        <?php endforeach; ?>
+                    </select>
+
+                    <input required name="Modelo" type="text" placeholder="Modelo">
+                    <input required name="Motor" type="text" placeholder="Motor">
+                    <input required name="Combustible" type="text" placeholder="Combustible">
+                    <input required name="Transmision" type="text" placeholder="Transmisión">
+                    <input required name="Tipo" type="text" placeholder="Tipo">
+
+                    <button type="submit" class="btn">Agregar Auto</button>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="panel">
+            <button class="panel-toggle">Modificar Marca</button>
+            <div class="panel-content">
+                <form method="POST" action="updateBrand">
+                    <select name="ID_Marca" id="update_marca">
+                        <?php foreach ($brands as $brand): ?>
+                            <option value="<?= $brand->ID_Marca ?>"><?= $brand->Marca ?></option> 
+                        <?php endforeach; ?>
+                    </select>
+                    <input type="text" name="Marca" placeholder="Nuevo nombre" required>
+                    <button type="submit">Modificar</button>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="panel">
+            <button class="panel-toggle">Eliminar Marca</button>
+            <div class="panel-content">
+                <form action="deleteBrand" method="POST">
+                    <select name="ID_Marca" id="delete_marca"> 
+                        <option value="">Selecciona una marca</option>
+                        <?php foreach ($brands as $brand): ?>
+                            <option value="<?= $brand->ID_Marca ?>"><?= $brand->Marca ?></option> 
+                        <?php endforeach; ?>
+                    </select>
+                    <button type="submit">Eliminar</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="/TPEWEB2/js/menu.js"></script>
+    <script src="/TPEWEB2/js/paneles.js"></script>  
+</body>
+</html>
