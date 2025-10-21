@@ -57,7 +57,7 @@ switch($params[0]){
         sessionAuthMiddleware($res);
         verifyAuthMiddleware($res);
         $CarsController = new CarsController();
-        $CarsController->updateCar();
+        $CarsController->updateCar($params[1]);
         break; 
     case 'deleteBrand':
         sessionAuthMiddleware($res);

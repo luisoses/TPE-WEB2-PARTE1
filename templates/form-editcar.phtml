@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Editar Auto</title>
+    <link rel="stylesheet" href="/TPEWEB2/css/disenioform.css"> 
+</head>
+<body>
+    
+    <form action="<?= BASE_URL ?>updateCar" method="POST" class="form-container">
+        <input type="hidden" name="ID_Modelo" value="<?= $car->ID_Modelo ?>">
+            
+        <label>Modelo:</label>
+        <input type="text" name="Modelo" value="<?= htmlspecialchars($car->Modelo) ?>" required>
+
+        <label>Motor:</label>
+        <input type="text" name="Motor" value="<?= htmlspecialchars($car->Motor) ?>" required>
+
+        <label>Combustible:</label>
+        <input type="text" name="Combustible" value="<?= htmlspecialchars($car->Combustible) ?>" required>
+
+        <label>Transmisión:</label>
+        <input type="text" name="Transmision" value="<?= htmlspecialchars($car->Transmision) ?>" required>
+
+        <label>Tipo:</label>
+        <input type="text" name="Tipo" value="<?= htmlspecialchars($car->Tipo) ?>" required>
+
+        <label>Marca:</label>
+        <select name="ID_Marca" required>
+            <?php foreach ($brands as $brand): ?>
+                <option value="<?= $brand->ID_Marca ?>" 
+                    <?= ($car->ID_Marca == $brand->ID_Marca) ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($brand->Marca) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>       
+            <button type="submit" class="btn">Guardar cambios</button> 
+    </form>
+</body>
+</html>
