@@ -10,4 +10,4 @@ Vamos a crear una pagina donde se puedan visualizar vehiculos, cada uno pertenec
 
 #DB: 
 Base de datos:
-
+<img width="585" height="436" alt="xd" src="https://github.com/user-attachments/assets/4c0136a0-be5e-4909-a11c-dfd565731f06" />
