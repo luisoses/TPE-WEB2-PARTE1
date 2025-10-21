@@ -1,4 +1,4 @@
-# TPE-WEB2-PARTE1
+# TPE-WEB2-PARTE 2
 # Alumnos:
 Luis Oses 
 Email:luisosespro123@gmail.com
